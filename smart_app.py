@@ -22,10 +22,20 @@ def analyze_menu_image(image):
     """
     
     response = model.generate_content([prompt, image])
+    
+    # Display raw response for debugging
+    st.write("Raw AI Response:")
+    st.write(response.text)
+    
     try:
         json_str = response.text
-        return json.loads(json_str)
+        parsed_result = json.loads(json_str)
+        st.write("Parsed JSON:")
+        st.write(parsed_result)
+        return parsed_result
     except json.JSONDecodeError:
+        st.write("JSON Parsing Error - Raw Response:")
+        st.write(json_str)
         return {"items": []}
 
 def main():

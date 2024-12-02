@@ -11,7 +11,7 @@ def analyze_menu_image(image):
     prompt = """
     You are a menu analyzer. Look at this menu image carefully and extract:
     1. All food and drink items
-    2. Their corresponding prices
+    2. Their corresponding prices (prices are in turkish lira keep this in your mind)
     Format your response as a JSON with this exact structure:
     {
         "items": [

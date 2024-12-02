@@ -21,7 +21,6 @@ def analyze_menu_image(image):
     
     response = model.generate_content([prompt, image])
     try:
-        # Extract JSON string from response and parse it
         json_str = response.text
         return json.loads(json_str)
     except json.JSONDecodeError:
@@ -31,7 +30,6 @@ def main():
     st.title("Smart Menu Scanner")
     st.write("Take a photo of a menu to extract items and prices")
     
-    # Camera input
     camera_input = st.camera_input("Take a photo of the menu")
     
     if camera_input is not None:
@@ -41,20 +39,36 @@ def main():
             with st.spinner('Analyzing menu items and prices...'):
                 result = analyze_menu_image(image)
                 
-                st.subheader("Menu Items and Prices:")
-                for item in result["items"]:
-                    st.write(f"📍 {item['name']}: ${item['price']}")
+                # Create two columns for display
+                col1, col2 = st.columns(2)
                 
-                # Create downloadable JSON file
-                json_str = json.dumps(result, indent=2)
-                st.download_button(
-                    label="Download as JSON",
-                    data=json_str,
-                    file_name="menu_items.json",
-                    mime="application/json"
-                )
+                with col1:
+                    st.subheader("Simple Text Format")
+                    text_content = ""
+                    for item in result["items"]:
+                        text_content += f"{item['name']}: ${item['price']}\n"
+                    st.text_area("Menu Items", value=text_content, height=300)
+                    
+                    st.download_button(
+                        label="Download as Text",
+                        data=text_content,
+                        file_name="menu_items.txt",
+                        mime="text/plain"
+                    )
                 
-                # Display data in a table format
+                with col2:
+                    st.subheader("JSON Format")
+                    json_str = json.dumps(result, indent=2)
+                    st.text_area("JSON Data", value=json_str, height=300)
+                    
+                    st.download_button(
+                        label="Download as JSON",
+                        data=json_str,
+                        file_name="menu_items.json",
+                        mime="application/json"
+                    )
+                
+                # Display data in a table format below the columns
                 if result["items"]:
                     st.subheader("Menu Items Table")
                     st.table(result["items"])

@@ -5,7 +5,7 @@ import json
 
 # Configure Google Gemini API using Streamlit secrets
 genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
-model = genai.GenerativeModel(model_name='gemini-1.0-pro-vision-latest')
+model = genai.GenerativeModel(model_name='gemini-1.5-flash')
 
 def analyze_menu_image(image):
     prompt = """

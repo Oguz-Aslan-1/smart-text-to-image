@@ -26,17 +26,6 @@ def analyze_menu_image(image):
     # Display raw response for debugging
     st.write("Raw AI Response:")
     st.write(response.text)
-    
-    try:
-        json_str = response.text
-        parsed_result = json.loads(json_str)
-        st.write("Parsed JSON:")
-        st.write(parsed_result)
-        return parsed_result
-    except json.JSONDecodeError:
-        st.write("JSON Parsing Error - Raw Response:")
-        st.write(json_str)
-        return {"items": []}
 
 def main():
     st.title("Smart Menu Scanner")
@@ -56,10 +45,7 @@ def main():
                 
                 with col1:
                     st.subheader("Simple Text Format")
-                    text_content = ""
-                    for item in result["items"]:
-                        text_content += f"{item['name']}: ${item['price']}\n"
-                    st.text_area("Menu Items", value=text_content, height=300)
+                    st.code(response.text, language='text')
                     
                     st.download_button(
                         label="Download as Text",
@@ -70,8 +56,8 @@ def main():
                 
                 with col2:
                     st.subheader("JSON Format")
-                    json_str = json.dumps(result, indent=2)
-                    st.text_area("JSON Data", value=json_str, height=300)
+                    cleaned_json = json.dumps(result, indent=2)
+                    st.code(cleaned_json, language='json')
                     
                     st.download_button(
                         label="Download as JSON",

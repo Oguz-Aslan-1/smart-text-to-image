@@ -9,14 +9,16 @@ model = genai.GenerativeModel(model_name='gemini-1.5-flash')
 
 def analyze_menu_image(image):
     prompt = """
-    Analyze this menu image and extract all food/drink items with their prices.
-    Return the data as a JSON string with this format:
+    You are a menu analyzer. Look at this menu image carefully and extract:
+    1. All food and drink items
+    2. Their corresponding prices
+    Format your response as a JSON with this exact structure:
     {
         "items": [
-            {"name": "item name", "price": "price"}
+            {"name": "item name", "price": "price value"}
         ]
     }
-    Only return the JSON string, no other text.
+    Be precise and include every visible menu item.
     """
     
     response = model.generate_content([prompt, image])

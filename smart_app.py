@@ -15,10 +15,10 @@ def analyze_menu_image(image):
     Format your response as a JSON with this exact structure:
     {
         "items": [
-            {"name": "item name", "price": "price value"}
+            {"name": "item name", "price": "price value", "description": "details of the item"}
         ]
     }
-    Be precise and include every visible menu item.
+    Be precise and include every visible menu item. If there is no description, create it yourself with around 1 sentence.
     """
 
     response = model.generate_content([prompt, image])
